@@ -1,4 +1,5 @@
 import click
+import re
 from models import database, User
 from uuid import uuid4
 from peewee import IntegrityError
@@ -28,21 +29,23 @@ def main():
     def create_admin(firstname, lastname, email, password):
         """Create a new admin for the ecommerce"""
         # TODO: Check email with re module
+        match = re.match('^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', email)
+        if match == None:
+            print('Email Not Valid')
         # TODO: Check email and password insert
+    def crypt_password(password):
+        crypt = pbkdf2_sha256.hash(password)
 
-        print(firstname)
-        print(lastname)
-        print(email)
-        print(password)
-        """new_admin = insert_admin(firstname, lastname, email, password)
+        return crypt
+
+        new_admin = insert_admin(firstname, lastname, email, password)
 
         if new_admin is not None:
             pass
         else:
-            pass"""
+            pass
+
     create_admin()
-
-
 
 if __name__ == '__main__':
     main()
